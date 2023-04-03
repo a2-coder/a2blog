@@ -28,11 +28,13 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
+        sans: ['var(--mukta)', ...fontFamily.sans],
+        mono: ['var(--dm-mono)', ...fontFamily.mono],
+        // serif: ['Playfair Display', ...fontFamily.serif],
       },
       colors: {
-        primary: colors.teal,
-        gray: colors.neutral,
+        primary: colors.purple,
+        gray: colors.gray,
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -43,7 +45,10 @@ module.exports = {
               '&:hover': {
                 color: `${theme('colors.primary.600')} !important`,
               },
-              code: { color: theme('colors.primary.400') },
+              code: {
+                color: theme('colors.primary.400'),
+                fontFamily: theme('fontFamily.mono'),
+              },
             },
             h1: {
               fontWeight: '700',

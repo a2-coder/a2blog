@@ -1,0 +1,118 @@
+---
+title: "Understanding 'reduce': A Beginners Guide"
+date: '2023-03-21'
+tags: ['arrays', 'reduce', 'javascript', 'typescript']
+draft: false
+images: ['/static/images/blogs/understanding-reduce/cover.png']
+summary: This article tries to break down and explain the reduce method in simpler terms with the help of an example problem - sum of elements in an array.
+---
+
+![understanding-reduce](/static/images/blogs/understanding-reduce/cover.png)
+
+The word **reduce** literally means “to make something smaller”. It is a functional programming concept which applies a function against an accumulator and each element in an array to reduce it into a single value. It is a very powerful concept and is used in development of complicated libraries and frameworks like **[Redux](https://redux.js.org/)** or **[Ramda](https://ramdajs.com/)**.
+
+In JavaScript **reduce** is available as an array method. I’ve been using the **reduce** method in my work for a long time. However, I have noticed that many of my friends and colleagues struggle to understand and use this method effectively. Hence, I decided to write this article to explain the reduce method in simpler terms. This powerful concept can help optimize code and implement complex systems and logic. Hopefully, this will help more people understand it properly.
+
+Let’s forget about the Array `reduce` **method for now. We will create our own `reduce` function from scratch to gain a better understanding of what it actually does.
+
+## Breaking things down
+
+To get started, let’s break down different components in the **reduce** function.
+
+- **Accumulator** - It is a variable which stores the result after each step of reduction. It will also become the input to the next step.
+- **Reducer** - It is a function which takes the accumulator and each element of the array. It should return the accumulator value for the next step. It defines each step in a reduction.
+- **Initial Value** - It is the value of the **Accumulator** for the first reduction step. You can consider this as some kind of seed value. The final result of the reduction only depends on the **initial value** and the **reducer**.
+- **The Input Array** - No need of any more explanation with this one 😛.
+
+We can create a basic definition for our reduce method using this knowledge.
+
+> I will be using TypeScript to build the function in this article. This will allow me to use static types to better define the function and help readers gain a better understanding.
+
+```ts:reduce.ts
+type Reducer<TEle, TAcc> = (acc: TAcc, ele: TEle) => TAcc;
+
+function reduce<TEle, TAcc>(
+	arr: TEle[],
+	reducer: Reducer<TEle, TAcc>,
+	initialValue: TAcc
+) {
+// TODO: Implement
+}
+```
+
+## Better understanding with an Example
+
+Consider a simple example of reduction - **“Sum of elements in an array”**. It should be fairly easy to implement the logic for this. Let’s do it:
+
+```ts:example.ts
+const arr = [1,2,3,4,5,6,7,8,9,10];
+
+let sum = 0;
+
+for (let num of arr) {
+    sum = sum + num;
+}
+
+console.log(sum);
+```
+
+The concept is straightforward and easy for anyone to understand. In essence, reduction is just as simple. Let me rewrite and annotate this code to show it.
+
+![annotation.jpg](/static/images/blogs/understanding-reduce/annotation.jpg)
+
+We can now easily rewrite the same code as combination of different components of **reduce**.
+
+```ts:example.ts
+const arr = [1,2,3,4,5,6,7,8,9,10];
+const initialValue = 0;
+const reducer = (acc: number, ele: number) => acc + ele;
+
+let acc = 0;
+
+for (let ele of arr) {
+    acc = reducer(acc, ele);
+}
+```
+
+## Building the reduce method
+
+Now, we can use the above information to complete our `reduce` function.
+
+```ts:reducer.ts
+type Reducer<TEle, TAcc> = (acc: TAcc, ele: TEle) => TAcc;
+
+function reduce<TEle, TAcc>(
+	arr: TEle[],
+	reducer: Reducer<TEle, TAcc>,
+	initialValue: TAcc
+) {
+    let acc = initialValue;
+    for (let ele of arr) {
+        acc = reducer(acc, ele);
+    }
+    return acc;
+}
+```
+
+That's it. It was almost effortless right? The concept of **"reduce**" can actually be quite simple if we take away all the complex syntax and just look at it as a basic problem? It might seem overwhelming at first, but if we break it down into smaller pieces, we can make it a lot easier to understand. Now, if you take away the first parameter (i.e., the input array), our function is basically the same as the **reduce** method in JavaScript.
+
+> The **reducer** parameter in the **reduce** method also takes **index** and the **input array** as arguments but in essence its implemented the same way as the **reduce** function we just built.
+
+## What Next?
+
+Now, there are somethings that you can do more to be really good at using the **reduce** is to practice and to try and implement complex reduction logics. Some of the items you can try out are:
+
+1. Write a function that takes an array of numbers and returns the product of all the numbers.
+2. Write a function that takes an array of strings and returns the total number of characters in all the strings combined.
+3. Write a function that takes an array of numbers and returns the average (mean) of the numbers.
+4. Write a function that takes an array of objects with a numeric **`value`** property and returns the sum of all the **`value`** properties.
+5. Write a function that takes an array of strings and returns the longest string in the array.
+6. Write a function that takes an array of numbers and returns the maximum number in the array.
+7. Write a function that takes an array of numbers and returns the minimum number in the array.
+8. Write a function that takes an array of objects with a numeric **`value`** property and returns the average of all the **`value`** properties.
+9. Write a function that takes an array of objects with a **`name`** property and returns a single string that concatenates all the **`name`** properties, separated by commas.
+10. Write a function that takes an array of numbers and returns a new array with only the even numbers from the original array.
+
+I hope these practice questions help you improve your skills with **`reduce`**!
+
+—  **THANK YOU** ✨ —
